@@ -11,7 +11,7 @@
 >
 	<div class="p-5">
 		<!-- Gambar -->
-		<div class="h-[200px] overflow-hidden rounded-xl">
+		<div class="h-[150px] overflow-hidden rounded-xl">
 			<img
 				src={image}
 				alt={title}

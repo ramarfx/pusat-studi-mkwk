@@ -11,4 +11,13 @@
 </svelte:head>
 
 <Navbar />
-{@render children()}
+
+<main class="min-h-[calc(100vh-100px)]">
+	{@render children()}
+</main>
+<!-- Footer -->
+<footer
+	class="py- flex h-[100px] items-center justify-center bg-gray-100 text-center text-sm text-emerald-800"
+>
+	Dibuat oleh Pusat Studi MKWK UPNVJ
+</footer>

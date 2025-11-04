@@ -28,7 +28,7 @@
 	<div class="h-full w-full bg-linear-to-tr from-emerald-500/50 to-black/50">
 		<div class="flex h-full w-full flex-col items-center justify-center gap-10">
 			<h1 class="text-center text-4xl font-bold text-emerald-50 md:text-8xl">
-				PUSAT STUDI <br /> MKWK UPNVJ
+				MKWK UPNVJ
 			</h1>
 
 			<button
@@ -41,7 +41,7 @@
 </section>
 
 <!-- Cards -->
-<section class="mx-auto mt-10 w-full max-w-6xl px-4 py-10 pb-20">
+<section class="mx-auto mt-10 w-full max-w-6xl px-4 py-10">
 	<div class="mb-5 flex items-center justify-between">
 		<h5 class="text-2xl font-bold">Materi terkini</h5>
 	</div>
@@ -53,5 +53,4 @@
 	</div>
 </section>
 
-<!-- Footer -->
-<footer class="bg-gray-100 py-4 text-center text-sm text-emerald-800">Dibuat oleh Pusat Studi MKWK UPNVJ</footer>
+
