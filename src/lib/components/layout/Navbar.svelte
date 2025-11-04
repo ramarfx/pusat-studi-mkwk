@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { asset } from '$app/paths';
 	import { Home, Layers, Menu, X } from '@lucide/svelte';
+	import { slide } from 'svelte/transition';
 
 	let mobileOpen = false;
 
@@ -18,7 +19,8 @@
 		<!-- Logo -->
 		<a href="/" class="flex items-center gap-2">
 			<img src={asset('/img/logo.png')} alt="logo" class="h-10 w-auto" />
-			<span class="text-lg font-semibold text-emerald-900">Pusat Studi MKWK UPNVJ</span>
+			<span class="text-base font-semibold text-emerald-900 md:text-lg">Pusat Studi MKWK UPNVJ</span
+			>
 		</a>
 
 		<!-- Desktop nav -->
@@ -52,24 +54,25 @@
 	</div>
 
 	<!-- Mobile dropdown -->
-	<div
-		class={`overflow-hidden border-t border-emerald-200 bg-emerald-50 transition-all duration-300 md:hidden ${
-			mobileOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-		}`}
-	>
-		<ul class="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3">
-			{#each links as { href, label, icon: Icon }}
-				<li>
-					<a
-						{href}
-						class="flex items-center gap-3 rounded-md px-3 py-2 text-emerald-900 transition hover:bg-emerald-100"
-						on:click={() => (mobileOpen = false)}
-					>
-						<Icon size={18} />
-						{label}
-					</a>
-				</li>
-			{/each}
-		</ul>
-	</div>
+	{#if mobileOpen}
+		<div
+			transition:slide={{ duration: 300 }}
+			class="border-t border-emerald-200 bg-emerald-50 md:hidden"
+		>
+			<ul class="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3">
+				{#each links as { href, label, icon: Icon }}
+					<li>
+						<a
+							{href}
+							class="flex items-center gap-3 rounded-md px-3 py-2 text-emerald-900 transition hover:bg-emerald-100"
+							on:click={() => (mobileOpen = false)}
+						>
+							<Icon size={18} />
+							{label}
+						</a>
+					</li>
+				{/each}
+			</ul>
+		</div>
+	{/if}
 </header>

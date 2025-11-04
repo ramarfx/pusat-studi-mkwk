@@ -27,13 +27,13 @@
 <section class="h-[40vh] w-full bg-[url('/img/upn-front.jpg')] bg-cover bg-center md:h-[60vh]">
 	<div class="h-full w-full bg-linear-to-tr from-emerald-500/50 to-black/50">
 		<div class="flex h-full w-full flex-col items-center justify-center gap-10">
-			<h1 class="text-center text-4xl font-bold text-emerald-50 md:text-8xl">
-				MKWK UPNVJ
-			</h1>
+			<h1 class="text-center text-4xl font-bold text-emerald-50 md:text-8xl">MKWK UPNVJ</h1>
 
-			<button
+			<a
+				href="/courses"
 				class="cursor-pointer bg-yellow-500 px-16 py-2 text-lg font-bold text-white shadow hover:bg-emerald-600"
-				>Masuk</button
+			>
+				Mulai</a
 			>
 		</div>
 	</div>
@@ -46,11 +46,9 @@
 		<h5 class="text-2xl font-bold">Materi terkini</h5>
 	</div>
 
-	<div class="grid grid-cols-1 justify-between gap-4 md:grid-cols-3">
+	<div class="grid grid-cols-2 justify-between gap-4 md:grid-cols-3">
 		{#each cards as card}
 			<Card {...card} />
 		{/each}
 	</div>
 </section>
-
-
