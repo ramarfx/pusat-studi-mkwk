@@ -32,7 +32,7 @@
 				<h1 class="text-center text-4xl font-bold text-emerald-50 md:text-8xl">MKWK UPNVJ</h1>
 
 				<a
-					href="/courses"
+					href="/auth/login"
 					class="cursor-pointer bg-yellow-500 px-16 py-2 text-lg font-bold text-white shadow hover:bg-emerald-600"
 				>
 					Mulai</a

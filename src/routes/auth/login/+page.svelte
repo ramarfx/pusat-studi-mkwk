@@ -45,11 +45,13 @@
 				<hr class="mb-3 border-gray-400" />
 
 				<div class="">
-                    <p class="mb-2 text-base font-bold text-emerald-950">Beberapa Materi dapat di akses melalui Guest</p>
-					<button
-						type="submit"
-						class="w-full rounded bg-amber-500 px-4 py-2 text-white hover:bg-amber-600"
-						>Login sebagai Guest</button
+					<p class="mb-2 text-base font-medium text-emerald-950">
+						Beberapa Materi dapat di akses melalui Guest
+					</p>
+					<a
+						href="/courses"
+						class="w-full inline-block text-center rounded bg-amber-500 px-4 py-2 text-white hover:bg-amber-600"
+						>Login sebagai Guest</a
 					>
 				</div>
 			</div>
