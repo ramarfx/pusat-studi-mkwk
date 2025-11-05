@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { asset } from '$app/paths';
-	import { Home, Layers, Menu, X } from '@lucide/svelte';
+	import { Home, Layers, Menu, User, X } from '@lucide/svelte';
 	import { slide } from 'svelte/transition';
 
 	let mobileOpen = false;
@@ -10,7 +10,8 @@
 
 	const links = [
 		{ href: '/', label: 'Beranda', icon: Home },
-		{ href: '/courses', label: 'Materi', icon: Layers }
+		{ href: '/courses', label: 'Materi', icon: Layers },
+		{ href: '/auth/login', label: 'Login', icon: User },
 	];
 </script>
 
@@ -19,8 +20,12 @@
 		<!-- Logo -->
 		<a href="/" class="flex items-center gap-2">
 			<img src={asset('/img/logo.png')} alt="logo" class="h-10 w-auto" />
-			<span class="text-base font-semibold text-emerald-900 md:text-lg">Pusat Studi MKWK UPNVJ</span
-			>
+			<div class="flex flex-col gap-0">
+				<p class="text-lg font-bold leading-5 text-emerald-900 md:text-2xl">SIMATA</p>
+				<span class="text-xs font-semibold text-emerald-900"
+					>Pusat Studi MKWK UPNVJ</span
+				>
+			</div>
 		</a>
 
 		<!-- Desktop nav -->
