@@ -47,7 +47,7 @@
 	];
 </script>
 
-<Carousel {images} class="h-full sm:h-full xl:h-full 2xl:h-[60vh] w-full" duration={3000}>
+<Carousel {images} class="h-full sm:h-full xl:h-full 2xl:h-[60vh] w-full rounded-none" duration={3000}>
 	<CarouselIndicators />
 	<Controls />
 

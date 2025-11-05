@@ -6,15 +6,15 @@
 </script>
 
 <main class="h-[calc(100vh-100px)] w-full bg-[url('/img/upn-front.jpg')] bg-cover bg-center">
-	<div class="h-full w-full bg-linear-to-tr from-emerald-500/60 to-black/60 py-10">
+	<div class="h-full w-full bg-linear-to-tr from-emerald-500/60 to-black/60 p-5">
 		<div class="flex h-full w-full items-center justify-center">
-			<div class="h-full w-[500px] rounded bg-white p-12 shadow-2xl">
+			<div class="w-[500px] rounded bg-white p-5 md:p-12 shadow-2xl">
 				<!-- logo -->
 				<a href="/" class="flex w-full items-center justify-center gap-2">
 					<img src={'/img/logo.png'} alt="logo" class="h-[100px] w-auto" />
 					<div class="flex flex-col gap-0">
-						<p class="leading-base text-lg font-bold text-emerald-900 md:text-5xl">SIMATA</p>
-						<span class="text-xs font-semibold text-emerald-900 md:text-base"
+						<p class="leading-base text-5xl font-bold text-emerald-900 md:text-5xl">SISMATA</p>
+						<span class="text-base font-semibold text-emerald-900 md:text-base"
 							>Pusat Studi MKWK UPNVJ</span
 						>
 					</div>

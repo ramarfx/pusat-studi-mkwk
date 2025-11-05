@@ -21,7 +21,7 @@
 		<a href="/" class="flex items-center gap-2">
 			<img src={asset('/img/logo.png')} alt="logo" class="h-10 w-auto" />
 			<div class="flex flex-col gap-0">
-				<p class="text-lg font-bold leading-5 text-emerald-900 md:text-2xl">SIMATA</p>
+				<p class="text-lg font-bold leading-5 text-emerald-900 md:text-2xl">SISMATA</p>
 				<span class="text-xs font-semibold text-emerald-900"
 					>Pusat Studi MKWK UPNVJ</span
 				>
