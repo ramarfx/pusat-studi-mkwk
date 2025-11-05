@@ -1,5 +1,6 @@
 <script>
 	import Card from '$lib/components/Card.svelte';
+	import Carousel from '$lib/components/Carousel.svelte';
 
 	const cards = [
 		{
@@ -24,18 +25,20 @@
 </script>
 
 <!-- jumbotron -->
-<section class="h-[40vh] w-full bg-[url('/img/upn-front.jpg')] bg-cover bg-center md:h-[60vh]">
-	<div class="h-full w-full bg-linear-to-tr from-emerald-500/50 to-black/50">
-		<div class="flex h-full w-full flex-col items-center justify-center gap-10">
-			<h1 class="text-center text-4xl font-bold text-emerald-50 md:text-8xl">MKWK UPNVJ</h1>
+<section class="h-[40vh] w-full md:h-[60vh]">
+	<div class="relative h-full w-full">
+		<Carousel>
+			<div class="z-20 flex h-full w-full flex-col items-center justify-center gap-10 bg-linear-to-tr from-emerald-500/50 to-black/50">
+				<h1 class="text-center text-4xl font-bold text-emerald-50 md:text-8xl">MKWK UPNVJ</h1>
 
-			<a
-				href="/courses"
-				class="cursor-pointer bg-yellow-500 px-16 py-2 text-lg font-bold text-white shadow hover:bg-emerald-600"
-			>
-				Mulai</a
-			>
-		</div>
+				<a
+					href="/courses"
+					class="cursor-pointer bg-yellow-500 px-16 py-2 text-lg font-bold text-white shadow hover:bg-emerald-600"
+				>
+					Mulai</a
+				>
+			</div>
+		</Carousel>
 	</div>
 	<div class="h-2 bg-linear-to-r from-emerald-300 via-yellow-300 to-emerald-300"></div>
 </section>

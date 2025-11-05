@@ -16,7 +16,7 @@ export const cards: Card[] = [
 		image: '/img/upn-front.jpg',
 		title: 'Pengantar MKWK',
 		description: 'Pengantar MKWK UPNVJ',
-		href: '#/'
+		href: '#/' 
 	},
 	{
 		image: '/img/upn-front.jpg',
