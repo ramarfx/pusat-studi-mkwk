@@ -29,7 +29,7 @@
 	<div class="relative h-full w-full">
 		<Carousel>
 			<div class="z-20 flex h-full w-full flex-col items-center justify-center gap-10 bg-linear-to-tr from-emerald-500/50 to-black/50">
-				<h1 class="text-center text-4xl font-bold text-emerald-50 md:text-8xl">MKWK UPNVJ</h1>
+				<h1 class="text-center text-4xl font-bold text-emerald-50 md:text-8xl">PUSAT STUDI <br> MKWK UPNVJ</h1>
 
 				<a
 					href="/auth/login"

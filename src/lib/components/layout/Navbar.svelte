@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { asset } from '$app/paths';
-	import { Home, Layers, Menu, User, X } from '@lucide/svelte';
+	import { Home, Icon, Layers, LogOut, Menu, User, X } from '@lucide/svelte';
 	import { slide } from 'svelte/transition';
+
+	let { data } = $props();
 
 	let mobileOpen = false;
 
@@ -10,8 +12,8 @@
 
 	const links = [
 		{ href: '/', label: 'Beranda', icon: Home },
-		{ href: '/courses', label: 'Materi', icon: Layers },
-		{ href: '/auth/login', label: 'Login', icon: User },
+		{ href: '/courses', label: 'Materi', icon: Layers }
+		// { href: '/auth/login', label: 'Login', icon: User }
 	];
 </script>
 
@@ -19,12 +21,10 @@
 	<div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
 		<!-- Logo -->
 		<a href="/" class="flex items-center gap-2">
-			<img src={asset('/img/logo.png')} alt="logo" class="h-10 w-auto" />
+			<img src={asset('/img/logo-upn.png')} alt="logo" class="h-10 w-auto" />
 			<div class="flex flex-col gap-0">
-				<p class="text-lg font-bold leading-5 text-emerald-900 md:text-2xl">SISMATA</p>
-				<span class="text-xs font-semibold text-emerald-900"
-					>Pusat Studi MKWK UPNVJ</span
-				>
+				<p class="text-lg leading-5 font-bold text-emerald-900 md:text-2xl">SISMATA</p>
+				<span class="text-xs font-semibold text-emerald-900">Pusat Studi MKWK UPNVJ</span>
 			</div>
 		</a>
 
@@ -42,12 +42,35 @@
 					<p>{label}</p>
 				</a>
 			{/each}
+
+			{#if data.user}
+				<p class="mx-5 text-emerald-800">Halo, {data.user.username}</p>
+
+				<!-- svelte-ignore a11y_consider_explicit_label -->
+				<form action="/auth/logout" method="post">
+					<button
+						type="submit"
+						class="flex items-center gap-2 rounded-md bg-red-600 px-6 py-2 text-white transition-colors"
+					>
+						Logout
+						<LogOut size={16} class="text-white" />
+					</button>
+				</form>
+			{:else}
+				<a
+					href={'/auth/login'}
+					class="'bg-emerald-600 text-white' flex items-center gap-2 rounded-md px-3
+						py-2 transition-colors"
+				>
+					<Icon size={16}></Icon>
+				</a>
+			{/if}
 		</nav>
 
 		<!-- Mobile menu button -->
 		<button
 			class="rounded-md p-2 transition hover:bg-emerald-100 md:hidden"
-			on:click={toggleMobile}
+			onclick={toggleMobile}
 			aria-label="Toggle menu"
 		>
 			{#if mobileOpen}
@@ -70,7 +93,7 @@
 						<a
 							{href}
 							class="flex items-center gap-3 rounded-md px-3 py-2 text-emerald-900 transition hover:bg-emerald-100"
-							on:click={() => (mobileOpen = false)}
+							onclick={() => (mobileOpen = false)}
 						>
 							<Icon size={18} />
 							{label}

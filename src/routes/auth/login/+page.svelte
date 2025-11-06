@@ -1,14 +1,19 @@
 <script lang="ts">
 	import { Input, Label } from 'flowbite-svelte';
 	import type { PageProps } from './$types';
+	import { enhance } from '$app/forms';
+	import type { ActionData } from './$types';
 
-	let { data }: PageProps = $props();
+	type LoginAction = ActionData | { error?: string };
+
+	// svelte-ignore export_let_unused
+	export let form: LoginAction = {};
 </script>
 
 <main class="h-[calc(100vh-100px)] w-full bg-[url('/img/upn-front.jpg')] bg-cover bg-center">
 	<div class="h-full w-full bg-linear-to-tr from-emerald-500/60 to-black/60 p-5">
 		<div class="flex h-full w-full items-center justify-center">
-			<div class="w-[500px] rounded bg-white p-5 md:p-12 shadow-2xl">
+			<div class="w-[500px] rounded bg-white p-5 shadow-2xl md:p-12">
 				<!-- logo -->
 				<a href="/" class="flex w-full items-center justify-center gap-2">
 					<img src={'/img/logo.png'} alt="logo" class="h-[100px] w-auto" />
@@ -20,14 +25,18 @@
 					</div>
 				</a>
 
-				<form action="" class="mt-10">
+				<form method="post" use:enhance class="mt-10">
+					{#if form?.error}
+						<p class="mb-4 text-center font-semibold text-red-600">{form.error}</p>
+					{/if}
+
 					<div class="mb-6">
 						<Label for="username">Username</Label>
-						<Input id="username" placeholder="Username" />
+						<Input name="username" placeholder="Username" />
 					</div>
 					<div class="mb-6">
 						<Label for="username">Password</Label>
-						<Input type="password" id="username" placeholder="Password" />
+						<Input type="password" name="password" placeholder="Password" />
 					</div>
 
 					<div class="mb-6">
@@ -50,7 +59,7 @@
 					</p>
 					<a
 						href="/courses"
-						class="w-full inline-block text-center rounded bg-amber-500 px-4 py-2 text-white hover:bg-amber-600"
+						class="inline-block w-full rounded bg-amber-500 px-4 py-2 text-center text-white hover:bg-amber-600"
 						>Login sebagai Guest</a
 					>
 				</div>
