@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 
-	export let items = [];
+	export let items: { name: string; href: string }[] = [];
 	export let isOpen: boolean;
 
 	const sidebarWidth = 'w-64';
@@ -25,9 +25,7 @@
 			<a
 				href={item.href}
 				class="flex items-center space-x-3 rounded-lg p-3 font-semibold transition-colors duration-150 ease-in-out
-					{$page.url.pathname === item.href
-						? activeClass
-						: inactiveClass}"
+					{$page.url.pathname === item.href ? activeClass : inactiveClass}"
 			>
 				<span>{item.name}</span>
 			</a>

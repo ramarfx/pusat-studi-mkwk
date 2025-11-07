@@ -8,6 +8,7 @@
 		TableHeadCell
 	} from 'flowbite-svelte';
 	import type { PageProps } from './$types';
+	import { enhance } from '$app/forms';
 
 	let { data }: PageProps = $props();
 </script>
@@ -35,7 +36,16 @@
 					<TableBodyCell>
 						<a href={course.file} target="_blank" class="text-blue-500">Lihat file</a>
 					</TableBodyCell>
-					<TableBodyCell>Edit | Hapus</TableBodyCell>
+					<TableBodyCell class="flex gap-4">
+						<a href={`/dashboard/course/${course.id}/update`} class="text-blue-500">Edit</a>
+
+						<form method="post" action="?/delete" use:enhance class="inline">
+							<input type="hidden" name="id" value={course.id} />
+							<button type="submit" name="action" value="delete" class="cursor-pointer text-red-500"
+								>Hapus</button
+							>
+						</form>
+					</TableBodyCell>
 				</TableBodyRow>
 			{/each}
 		</TableBody>
