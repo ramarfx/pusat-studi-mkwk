@@ -5,7 +5,7 @@
 
 	const { data } = $props();
 	const search = writable('');
-	
+
 	const cards = data.courses;
 
 	const filteredCards = derived(search, ($search) => {
@@ -38,7 +38,7 @@
 	{#if $filteredCards.length > 0}
 		<div class="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-4">
 			{#each $filteredCards as card}
-				<Card {...card} />
+				<Card {...card} href={`/courses/${card.id}`} />
 			{/each}
 		</div>
 	{:else}
