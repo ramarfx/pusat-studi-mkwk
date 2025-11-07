@@ -1,5 +1,4 @@
 <script lang="ts">
-	export let image: string;
 	export let title: string;
 	export let description: string;
 	export let href: string = '#';
@@ -13,7 +12,7 @@
 		<!-- Gambar -->
 		<div class="h-20 overflow-hidden rounded-xl md:h-[150px]">
 			<img
-				src={image}
+				src={'/img/upn-front.jpg'}
 				alt={title}
 				class="h-full w-full object-cover transition duration-300 group-hover:scale-105"
 			/>

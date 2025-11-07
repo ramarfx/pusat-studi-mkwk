@@ -1,10 +1,12 @@
 <script lang="ts">
 	import Card from '$lib/components/Card.svelte';
-	import { cards } from '$lib/data';
 	import { X } from '@lucide/svelte';
 	import { derived, writable } from 'svelte/store';
 
+	const { data } = $props();
 	const search = writable('');
+	
+	const cards = data.courses;
 
 	const filteredCards = derived(search, ($search) => {
 		const q = $search.toLowerCase().trim();
