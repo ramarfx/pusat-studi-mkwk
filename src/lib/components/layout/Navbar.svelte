@@ -1,20 +1,21 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { asset } from '$app/paths';
-	import { Home, Icon, Layers, LogOut, Menu, User, X } from '@lucide/svelte';
+	import { Home, Icon, Layers, LayoutDashboard, LogOut, Menu, User, X } from '@lucide/svelte';
 	import { slide } from 'svelte/transition';
 
 	let { data } = $props();
 
-	let mobileOpen = false;
+	let mobileOpen = $state(false);
 
 	const toggleMobile = () => (mobileOpen = !mobileOpen);
 
 	const links = [
 		{ href: '/', label: 'Beranda', icon: Home },
-		{ href: '/courses', label: 'Materi', icon: Layers }
-		// { href: '/auth/login', label: 'Login', icon: User }
+		{ href: '/courses', label: 'Materi', icon: Layers },
+		{ href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard }
 	];
+
 </script>
 
 <header class="sticky top-0 z-50 border-b border-emerald-100 bg-white">
@@ -44,32 +45,33 @@
 			{/each}
 
 			{#if data.user}
-				<p class="mx-5 text-emerald-800">Halo, {data.user.username}</p>
+				<p class="ml-4 text-emerald-800">Halo, {data.user?.username}</p>
 
 				<!-- svelte-ignore a11y_consider_explicit_label -->
 				<form action="/auth/logout" method="post">
 					<button
 						type="submit"
-						class="flex items-center gap-2 rounded-md bg-red-600 px-6 py-2 text-white transition-colors"
+						class="ml-4 flex items-center gap-2 rounded-md bg-red-600 px-6 py-2 text-white transition-colors"
 					>
-						Logout
 						<LogOut size={16} class="text-white" />
+						Logout
 					</button>
 				</form>
 			{:else}
 				<a
 					href={'/auth/login'}
-					class="'bg-emerald-600 text-white' flex items-center gap-2 rounded-md px-3
-						py-2 transition-colors"
+					class="ml-4 flex items-center gap-2 rounded-md border border-amber-600 px-3
+						py-2 text-amber-600 transition-colors"
 				>
-					<Icon size={16}></Icon>
+					<User size={16} class="text-amber-600"></User>
+					<p>Login</p>
 				</a>
 			{/if}
 		</nav>
 
 		<!-- Mobile menu button -->
 		<button
-			class="rounded-md p-2 transition hover:bg-emerald-100 md:hidden"
+			class="cursor-pointer rounded-md p-2 transition hover:bg-emerald-100 md:hidden"
 			onclick={toggleMobile}
 			aria-label="Toggle menu"
 		>

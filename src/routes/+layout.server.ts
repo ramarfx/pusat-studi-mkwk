@@ -1,13 +1,7 @@
-// src/routes/+layout.server.ts
 import type { LayoutServerLoad } from './$types';
 
-export const load: LayoutServerLoad = async ({ cookies }) => {
-	const session = cookies.get('session_user');
-
-	if (!session) {
-		return { user: null };
-	}
-
-	const user = JSON.parse(session);
-	return { user };
-};
+export const load: LayoutServerLoad = (async ({ locals }) => {
+	return {
+        user: locals.user ?? null
+    };
+}) satisfies LayoutServerLoad;

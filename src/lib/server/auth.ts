@@ -31,7 +31,7 @@ export async function login(username: string, password: string) {
 }
 
 export async function logout(cookies: Cookies) {
-	// hapus cookie
+	// hapus 
 	cookies.delete('session_user', { path: '/' });
 
 	throw redirect(303, '/?invalidate=1');

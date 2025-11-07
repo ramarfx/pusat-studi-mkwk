@@ -1,0 +1,29 @@
+<script lang="ts">
+	import { Input, Label, Textarea } from 'flowbite-svelte';
+    import type { PageProps } from './$types';
+	import { enhance } from '$app/forms';
+
+    let { data }: PageProps = $props();
+</script>
+
+<div class="w-full">
+    <h1 class="text-2xl font-bold mb-4">Tambah Materi MKWK</h1>
+
+    <form method="post" use:enhance enctype="multipart/form-data">
+        <div class="mb-4">
+            <Label for="title">Judul Materi</Label>
+            <Input type="text" name="title" placeholder="Judul Materi" />
+        </div>
+        <div class="mb-4">
+            <Label for="description">Deskripsi (opsional)</Label>
+            <Textarea name="description" placeholder="Judul Materi" class="w-full"></Textarea>
+        </div>
+        <div class="mb-4">
+            <Label for="file">File Materi</Label>
+            <Input type="file" name="file" placeholder="Judul Materi" accept=".pdf,.doc,.docx,.ppt,.pptx" />
+        </div>
+
+        <button type="submit" class="mb-4 rounded bg-emerald-600 px-4 py-2 text-white cursor-pointer">Tambah Materi</button>
+    </form>
+</div>
+

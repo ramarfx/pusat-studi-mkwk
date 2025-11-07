@@ -10,8 +10,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			where: (u, { eq }) => eq(u.id, Number(sessionId))
 		});
 		event.locals.user = current;
-        console.log(event.locals.user);
-	} else {
+		} else {
 		event.locals.user = null;
 	}
 
