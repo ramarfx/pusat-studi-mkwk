@@ -2,18 +2,46 @@
 	import '../app.css';
 	import favicon from '$lib/assets/icon.png';
 	import Navbar from '$lib/components/layout/Navbar.svelte';
-	import { fade } from 'svelte/transition';
+	import { fade, slide } from 'svelte/transition';
 	import { setContext } from 'svelte';
-	
-	
+	import { expoOut } from 'svelte/easing';
+	import { navigating } from '$app/stores';
+	import { Tween } from 'svelte/motion';
+	import { cubicOut } from 'svelte/easing';
+
 	let { children, data } = $props();
 
 	setContext('currentUser', data.user);
+
+	// Source - https://stackoverflow.com/a
+	// Posted by tbdrz
+	// Retrieved 2025-11-09, License - CC BY-SA 4.0
+
+	let showLoader = $state(false);
+
+	$effect(() => {
+		if ($navigating) {
+			const interval = setInterval(() => {
+				showLoader = true;
+			}, 300);
+
+			return () => {
+				showLoader = false;
+				clearInterval(interval);
+			};
+		}
+	});
 </script>
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
 </svelte:head>
+
+{#if showLoader}
+	<div class="fixed z-9999 flex h-screen w-screen items-center justify-center bg-red-500">
+		<p>Loading...</p>
+	</div>
+{/if}
 
 <Navbar {data} />
 

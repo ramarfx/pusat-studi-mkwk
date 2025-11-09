@@ -3,7 +3,7 @@ import { submissionSchema } from '$lib/utils/validators/submissionSchema';
 import path from 'path';
 import { promises as fs } from 'fs';
 import crypto from 'crypto';
-import { uploadFile } from '$lib/utils/uploadFile';
+import { deleteFile, uploadFile } from '$lib/utils/uploadFile';
 import type { SubmissionRequest } from '$lib/types/submission';
 
 export async function getSubmission() {
@@ -38,16 +38,13 @@ export async function createSubmission(data: SubmissionRequest) {
 
 	const result = submissionModel.createSubmission({
 		user_id: data.user_id,
-        course_id: data.course_id,
-        file_url: uploaded?.data?.ufsUrl
+		course_id: data.course_id,
+		file_url: uploaded?.data?.ufsUrl
 	});
 	return result;
 }
 
-export async function updateSubmission(
-	id: number,
-	data: { title: string; description: string; file: File | null }
-) {
+export async function updateSubmission(id: number, data: SubmissionRequest) {
 	const parsed = submissionSchema.safeParse(data);
 
 	if (!parsed.success) {
@@ -63,10 +60,15 @@ export async function updateSubmission(
 
 	const { file_url } = parsed.data;
 
-    let uploaded = null;
+	let uploaded = null;
 
 	if (file_url && file_url instanceof File) {
-        try {
+		try {
+			// delete file lama
+			const oldFile = submission.file_url.split('/f/')[1];
+			await deleteFile(oldFile);
+
+			// upload file
 			const response = await uploadFile(file_url);
 
 			uploaded = response;
@@ -77,9 +79,9 @@ export async function updateSubmission(
 	}
 
 	return await submissionModel.updateSubmission(id, {
-		title: data.title,
-		description: data.description,
-		file: uploaded?.data?.ufsUrl
+		course_id: data.course_id,
+		user_id: data.user_id,
+		file_url: uploaded?.data?.ufsUrl || submission.file_url,
 	});
 }
 
@@ -92,7 +94,10 @@ export async function deleteSubmission(id: number) {
 
 	if (submission.file_url) {
 		const uploadDir = path.join(process.cwd(), 'uploads');
-		const filePath = path.join(uploadDir, submission.file_url.replace(/^\/submission\//, 'submission/'));
+		const filePath = path.join(
+			uploadDir,
+			submission.file_url.replace(/^\/submission\//, 'submission/')
+		);
 		// buang leading slash
 
 		try {

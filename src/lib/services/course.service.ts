@@ -1,8 +1,5 @@
 import * as courseModel from '$lib/server/db/models/course.model';
 import { courseSchema } from '$lib/utils/validators/courseSchema';
-import path from 'path';
-import { promises as fs } from 'fs';
-import crypto from 'crypto';
 import { deleteFile, uploadFile } from '$lib/utils/uploadFile';
 
 export async function getCourses() {

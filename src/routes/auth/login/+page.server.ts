@@ -4,8 +4,8 @@ import { fail, redirect } from '@sveltejs/kit';
 export const actions = {
 	default: async ({ request, cookies }) => {
 		const form: FormData = await request.formData();
-		const username = form.get('username');
-		const password = form.get('password');
+		const username = form.get('username')?.toString().trim();
+		const password = form.get('password')?.toString().trim();
 
 		if (!username || !password || typeof username !== 'string' || typeof password !== 'string') {
 			return fail(401, { error: 'Username dan password wajib diisi' });

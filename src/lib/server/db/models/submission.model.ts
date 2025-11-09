@@ -22,8 +22,9 @@ export async function createSubmission(data: SubmissionRequest) {
 	return await db.insert(submission).values(data);
 }
 
+
 export async function updateSubmission(id: number, data: SubmissionRequest) {
-    return await db.update(submission).set(data).where(eq(submission.id, id));
+    return await db.update(submission).set({...data, created_at: new Date()}).where(eq(submission.id, id));
 }
 
 export async function deleteSubmission(id: number) {

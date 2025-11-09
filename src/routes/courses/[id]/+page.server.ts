@@ -4,20 +4,26 @@ import * as submissionService from '$lib/services/submission.service';
 import { redirect, type Actions } from '@sveltejs/kit';
 import type { SubmissionRequest } from '$lib/types/submission';
 
-export const load: PageServerLoad = (async ({ params }) => {
+export const load: PageServerLoad = (async ({ params, locals }) => {
 	const course = await courseService.getCourseById(Number(params.id));
+	const user = locals.user.submissions.find((sub) => sub.course_id === Number(params.id));
+	const isSubmitted = locals.user.submissions.some((submission) => submission.course_id === Number(params.id));
+	
 
 	if (!course) {
 		throw redirect(302, '/courses');
 	}
 
 	return {
-		course: course
+		course: course,
+		userSubmission: user,
+		isSubmitted: isSubmitted
 	};
 }) satisfies PageServerLoad;
 
+
 export const actions: Actions = {
-	default: async ({ request, params, locals }) => {
+	create: async ({ request, params, locals }) => {
 		const formData = await request.formData();
 
 		const data: SubmissionRequest = {
@@ -27,6 +33,19 @@ export const actions: Actions = {
 		};
 
 		await submissionService.createSubmission(data);
+
+		throw redirect(302, `/courses/${params.id}`);
+	},
+	update: async ({ request, params, locals }) => {
+		const formData = await request.formData();
+
+		const data: SubmissionRequest = {
+			course_id: Number(params.id),
+			user_id: locals.user.id,
+			file_url: formData.get('file') as File
+		};
+
+		await submissionService.updateSubmission(Number(formData.get('id')), data);
 
 		throw redirect(302, `/courses/${params.id}`);
 	}
