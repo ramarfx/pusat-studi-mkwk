@@ -11,7 +11,7 @@
 	const navItems = [
 		{ name: 'Beranda', href: '/dashboard' },
 		{ name: 'Materi', href: '/dashboard/course' },
-		{ name: 'Pengaturan', href: '/settings' },
+		{ name: 'Pengguna', href: '/dashboard/users' },
 		{ name: 'Keluar', href: '/logout' }
 	];
 </script>

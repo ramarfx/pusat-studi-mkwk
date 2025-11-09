@@ -13,9 +13,8 @@
 	const links = [
 		{ href: '/', label: 'Beranda', icon: Home },
 		{ href: '/courses', label: 'Materi', icon: Layers },
-		{ href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard }
+		{ href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, adminOnly: true }
 	];
-
 </script>
 
 <header class="sticky top-0 z-50 border-b border-emerald-100 bg-white">
@@ -31,7 +30,7 @@
 
 		<!-- Desktop nav -->
 		<nav class="hidden items-center gap-1 text-sm md:flex">
-			{#each links as { href, label, icon: Icon }}
+			{#each  links.filter(link => !link.adminOnly || data.user?.is_admin) as { href, label, icon: Icon }}
 				<a
 					{href}
 					class="flex items-center gap-2 rounded-md px-3 py-2 transition-colors

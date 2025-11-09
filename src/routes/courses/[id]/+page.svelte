@@ -2,6 +2,7 @@
 	import { FileText, SquareArrowOutUpRight } from '@lucide/svelte';
 	import type { PageProps } from './$types';
 	import { Input } from 'flowbite-svelte';
+	import { enhance } from '$app/forms';
 
 	let { data }: PageProps = $props();
 </script>
@@ -34,10 +35,23 @@
 			<SquareArrowOutUpRight size={14} />
 		</a>
 
-        <h1 class="my-2 mt-4 text-xl font-bold">Pengumpulan Tugas <span class="text-sm font-normal text-gray-500">(pdf, doc, docx, ppt, pptx)</span></h1>
-        <div class="mb-4">
-            <Input type="file" name="file" placeholder="Judul Materi" accept=".pdf,.doc,.docx,.ppt,.pptx" />
-        </div>
-        <button type="submit" class="mb-4 rounded bg-emerald-600 px-8 py-2 text-white cursor-pointer">Submit</button>
+		<h1 class="my-2 mt-4 text-xl font-bold">
+			Pengumpulan Tugas <span class="text-sm font-normal text-gray-500"
+				>(pdf, doc, docx, ppt, pptx)</span
+			>
+		</h1>
+		<form enctype="multipart/form-data" use:enhance method="post">
+			<div class="mb-4">
+				<Input
+					type="file"
+					name="file"
+					placeholder="Judul Materi"
+					accept=".pdf,.doc,.docx,.ppt,.pptx"
+				/>
+			</div>
+			<button type="submit" class="mb-4 cursor-pointer rounded bg-emerald-600 px-8 py-2 text-white"
+				>Submit</button
+			>
+		</form>
 	</div>
 </main>

@@ -28,8 +28,6 @@ export async function createCourse(data: { title: string; description: string; f
 		try {
 			const response = await uploadFile(file);
 
-			console.log(response.data?.url);
-
 			uploaded = response;
 		} catch (error) {
 			console.error(error);
@@ -42,7 +40,6 @@ export async function createCourse(data: { title: string; description: string; f
 		description: data.description,
 		file: uploaded.data.ufsUrl
 	});
-
 	return result;
 }
 

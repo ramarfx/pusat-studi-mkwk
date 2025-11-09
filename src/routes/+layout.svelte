@@ -3,10 +3,12 @@
 	import favicon from '$lib/assets/icon.png';
 	import Navbar from '$lib/components/layout/Navbar.svelte';
 	import { fade } from 'svelte/transition';
+	import { setContext } from 'svelte';
 	
 	
 	let { children, data } = $props();
 
+	setContext('currentUser', data.user);
 </script>
 
 <svelte:head>

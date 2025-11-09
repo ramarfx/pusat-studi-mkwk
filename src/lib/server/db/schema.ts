@@ -1,8 +1,9 @@
+import { relations } from 'drizzle-orm';
 import { boolean, pgTable, serial, varchar, timestamp, integer } from 'drizzle-orm/pg-core';
 
 export const user = pgTable('users', {
 	id: serial('id').primaryKey(),
-	username: varchar('username', { length: 50 }).notNull(),
+	username: varchar('username', { length: 50 }).unique().notNull(),
 	password: varchar('password', { length: 200 }).notNull(),
 	is_admin: boolean('is_admin').notNull().default(false),
 	created_at: timestamp('created_at').notNull().defaultNow()
@@ -18,9 +19,28 @@ export const course = pgTable('courses', {
 
 export const submission = pgTable('submissions', {
 	id: serial('id').primaryKey(),
-	user_id: integer('user_id').notNull().references(() => user.id),
-	course_id: integer('course_id').notNull().references(() => course.id),
+	user_id: integer('user_id')
+		.notNull()
+		.references(() => user.id),
+	course_id: integer('course_id')
+		.notNull()
+		.references(() => course.id),
 	file_url: varchar('file_url', { length: 200 }),
-	grade: integer('grade'),
+	grade: integer('grade').default(0),
 	created_at: timestamp('created_at').notNull().defaultNow()
 });
+
+export const userRelations = relations(user, ({ many }) => ({
+	submissions: many(submission)
+}));
+
+export const submissionRelations = relations(submission, ({ one }) => ({
+	user: one(user, {
+		fields: [submission.user_id],
+		references: [user.id]
+	}),
+	course: one(course, {
+		fields: [submission.course_id],
+		references: [course.id]
+	})
+}));
