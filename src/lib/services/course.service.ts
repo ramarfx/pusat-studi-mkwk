@@ -3,7 +3,7 @@ import { courseSchema } from '$lib/utils/validators/courseSchema';
 import path from 'path';
 import { promises as fs } from 'fs';
 import crypto from 'crypto';
-import { uploadFile } from '$lib/utils/uploadFile';
+import { deleteFile, uploadFile } from '$lib/utils/uploadFile';
 
 export async function getCourses() {
 	return await courseModel.getCourse();
@@ -26,9 +26,9 @@ export async function createCourse(data: { title: string; description: string; f
 
 	if (file && file instanceof File) {
 		try {
-			const response = await uploadFile(file);
+			uploaded = await uploadFile(file);
 
-			uploaded = response;
+			console.log('uploaded', uploaded);
 		} catch (error) {
 			console.error(error);
 			throw error;
@@ -61,38 +61,23 @@ export async function updateCourse(
 	}
 
 	const { file } = parsed.data;
-	let filePath: string = course.file;
+	let uploaded = null;
 
 	if (file && file instanceof File) {
-		// Pastikan direktori upload tersedia
-		const uploadDir = path.join(process.cwd(), 'uploads', 'courses');
-		await fs.mkdir(uploadDir, { recursive: true });
+		// hapus file lama
+		const oldFile = course.file.split('/f/')[1];
+		await deleteFile(oldFile);
 
-		// Konversi file ke buffer
-		const bytes = await file.arrayBuffer();
-		const buffer = Buffer.from(bytes);
+		// upload file
+		uploaded = await uploadFile(file);
 
-		// Hash nama file agar unik
-		const random = crypto.randomUUID();
-		const hash = crypto
-			.createHash('sha256')
-			.update(buffer + random)
-			.digest('hex');
-		const ext = path.extname(file.name);
-		const hashedName = `${hash}${ext}`;
-
-		// Simpan file ke folder static
-		const fullPath = path.join(uploadDir, hashedName);
-		await fs.writeFile(fullPath, buffer);
-
-		// Path publik
-		filePath = `/courses/${hashedName}`;
+		console.log('uploaded', uploaded);
 	}
 
 	return await courseModel.updateCourse(id, {
 		title: data.title,
 		description: data.description,
-		file: filePath
+		file: uploaded?.data?.ufsUrl || course.file
 	});
 }
 
@@ -104,21 +89,8 @@ export async function deleteCourse(id: number) {
 	}
 
 	if (course.file) {
-		const uploadDir = path.join(process.cwd(), 'uploads');
-		const filePath = path.join(uploadDir, course.file.replace(/^\/courses\//, 'courses/'));
-		// buang leading slash
-
-		try {
-			await fs.unlink(filePath);
-			console.log('File berhasil dihapus:', filePath);
-		} catch (err: any) {
-			// Jangan langsung throw error biar delete tetap jalan meski file gak ketemu
-			if (err.code !== 'ENOENT') {
-				console.log('Gagal hapus file:', err);
-				throw new Error('Gagal menghapus file di server');
-			}
-			console.warn('File tidak ditemukan, tapi record sudah dihapus:', filePath);
-		}
+		const oldFile = course.file.split('/f/')[1];
+		await deleteFile(oldFile);
 	}
 
 	await courseModel.deleteCourse(id);

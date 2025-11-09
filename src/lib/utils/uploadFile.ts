@@ -10,3 +10,9 @@ export const uploadFile = async (file: File) => {
 
 	return uploaded;
 };
+
+export const deleteFile = async (key: string) => {
+	const deleted = await utapi.deleteFiles(key);
+
+	return deleted;
+}

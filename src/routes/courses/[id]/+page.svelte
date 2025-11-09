@@ -1,10 +1,22 @@
 <script lang="ts">
-	import { FileText, SquareArrowOutUpRight } from '@lucide/svelte';
+	import { Check, Edit, FileText, SquareArrowOutUpRight } from '@lucide/svelte';
 	import type { PageProps } from './$types';
-	import { Input } from 'flowbite-svelte';
+	import { Button, Modal, Label, Input, Checkbox } from 'flowbite-svelte';
 	import { enhance } from '$app/forms';
 
 	let { data }: PageProps = $props();
+
+	let formModal = $state(false);
+	let error = $state('');
+
+	function onaction({ action, data }: { action: string; data: FormData }) {
+		error = '';
+		// Check the data validity, return false to prevent dialog closing; anything else to proceed
+		if (action === 'login' && (data.get('password') as string)?.length < 4) {
+			error = 'Password must have at least 4 characters';
+			return false;
+		}
+	}
 </script>
 
 <main class="">
@@ -31,7 +43,7 @@
 			class="flex items-center gap-2 text-blue-500 underline underline-offset-2"
 		>
 			<FileText size={16} />
-			Lihat dokumen
+			Lihat dokumen materi
 			<SquareArrowOutUpRight size={14} />
 		</a>
 
@@ -40,18 +52,65 @@
 				>(pdf, doc, docx, ppt, pptx)</span
 			>
 		</h1>
-		<form enctype="multipart/form-data" use:enhance method="post">
-			<div class="mb-4">
+		{#if data.user.submissions.some((sub) => sub.course_id === data.course.id)}
+			<p class="flex items-center text-green-500">
+				<Check size={16} />
+				Anda telah mengumpulkan tugas ini
+			</p>
+			<a
+				href={data.user.submissions.find((sub) => sub.course_id === data.course.id)?.file_url}
+				class="flex items-center gap-2 text-blue-500 underline underline-offset-2"
+			>
+				<FileText size={16} />
+				Lihat dokumen anda
+				<SquareArrowOutUpRight size={14} />
+			</a>
+
+			<button
+				onclick={() => (formModal = true)}
+				class="mt-4 flex cursor-pointer items-center gap-4 rounded bg-emerald-600 px-4 py-2 text-white"
+			>
+				<Edit size={16} /> Edit Tugas
+			</button>
+		{:else}
+			<form method="post" use:enhance enctype="multipart/form-data">
 				<Input
 					type="file"
 					name="file"
 					placeholder="Judul Materi"
 					accept=".pdf,.doc,.docx,.ppt,.pptx"
 				/>
-			</div>
-			<button type="submit" class="mb-4 cursor-pointer rounded bg-emerald-600 px-8 py-2 text-white"
-				>Submit</button
-			>
-		</form>
+				<button
+					type="submit"
+					class="mb-4 cursor-pointer rounded bg-emerald-600 px-4 py-2 text-white"
+					>Tambah Tugas</button
+				>
+			</form>
+		{/if}
 	</div>
+
+	<!-- modal -->
+	<Modal form bind:open={formModal} size="xs" {onaction}>
+		<div class="flex flex-col space-y-6">
+			<h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Edit Tugas</h3>
+			{#if error}
+				<Label color="red">{error}</Label>
+			{/if}
+			<form method="post" use:enhance enctype="multipart/form-data">
+				<Input
+					type="file"
+					name="file"
+					placeholder="Judul Materi"
+					accept=".pdf,.doc,.docx,.ppt,.pptx"
+					class="mb-4"
+				/>
+
+				<button
+					type="submit"
+					class="mb-4 cursor-pointer w-full text-center rounded bg-emerald-600 px-4 py-2 text-white"
+					>Edit Tugas</button
+				>
+			</form>
+		</div>
+	</Modal>
 </main>
