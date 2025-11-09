@@ -3,27 +3,6 @@
 	import Carousel from '$lib/components/Carousel.svelte';
 
 	let { data } = $props();
-
-	const cards = [
-		{
-			image: '/img/upn-front.jpg',
-			title: 'Pengantar MKWK',
-			description: 'Pengantar MKWK UPNVJ',
-			href: '#/'
-		},
-		{
-			image: '/img/upn-front.jpg',
-			title: 'Pengantar MKWK',
-			description: 'Pengantar MKWK UPNVJ',
-			href: '#/'
-		},
-		{
-			image: '/img/upn-front.jpg',
-			title: 'Pengantar MKWK',
-			description: 'Pengantar MKWK UPNVJ',
-			href: '#/'
-		}
-	];
 </script>
 
 <!-- jumbotron -->
@@ -58,8 +37,14 @@
 	</div>
 
 	<div class="grid grid-cols-2 justify-between gap-4 md:grid-cols-3">
-		{#each cards as card}
-			<Card {...card} />
+		{#each data.courses as course}
+			<Card
+				title={course.title}
+				description={course.description}
+				href={`/courses/${course.id}`}
+				thumbnail={course.thumbnail ?? ''}
+				type={course.type}
+			/>
 		{/each}
 	</div>
 </section>
