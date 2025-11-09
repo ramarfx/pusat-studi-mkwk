@@ -2,6 +2,9 @@
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
+@import "uploadthing/tw/v4";
+@source "../node_modules/@uploadthing/svelte/dist";
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {

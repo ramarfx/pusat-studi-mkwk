@@ -25,7 +25,7 @@
 			<img src={asset('/img/logo-upn.png')} alt="logo" class="h-10 w-auto" />
 			<div class="flex flex-col gap-0">
 				<p class="text-lg leading-5 font-bold text-emerald-900 md:text-2xl">SISMATA</p>
-				<span class="text-xs font-semibold text-emerald-900">Pusat Studi MKWK UPNVJ</span>
+				<span class="text-xs font-semibold text-emerald-900">Sistem Informasi Studi Mata Kuliah Wajib Kurikulum</span>
 			</div>
 		</a>
 
