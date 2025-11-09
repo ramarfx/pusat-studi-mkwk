@@ -31,6 +31,8 @@ export const actions: Actions = {
 		const data = {
 			id: Number(formData.get('id')),
 			title: formData.get('title')?.toString() || '',
+			thumbnail: formData.get('thumbnail') as File,
+			type: formData.get('type')?.toString() || 'individu',
 			description: formData.get('description')?.toString() || '',
 			file: formData.get('file') as File
 		};

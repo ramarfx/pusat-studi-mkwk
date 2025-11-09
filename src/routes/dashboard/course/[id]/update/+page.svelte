@@ -1,27 +1,48 @@
 <script lang="ts">
-	import { Input, Label, Textarea } from 'flowbite-svelte';
+	import { Input, Label, Spinner, Textarea } from 'flowbite-svelte';
 	import type { PageProps } from './$types';
 	import { enhance } from '$app/forms';
+	import type { SubmitFunction } from '@sveltejs/kit';
 
 	let { data }: PageProps = $props();
+
+	let isLoading = $state(false);
+	const onsubmit: SubmitFunction = () => {
+		isLoading = true;
+		return async ({ update }) => {
+			await update({ invalidateAll: true, reset: true });
+			isLoading = false;
+		};
+	};
 </script>
 
 <div class="w-full">
 	<h1 class="mb-4 text-2xl font-bold">Update Materi MKWK</h1>
 
-	<form method="post" use:enhance enctype="multipart/form-data">
+	<form method="post" use:enhance={onsubmit} enctype="multipart/form-data">
 		<input type="hidden" name="id" value={data.course?.id} />
 		<div class="mb-4">
 			<Label for="title">Judul Materi</Label>
 			<Input type="text" name="title" value={data.course?.title} placeholder="Judul Materi" />
 		</div>
 		<div class="mb-4">
-			<Label for="description">Deskripsi (abaikan jika tidak ingin diubah)</Label>
+			<Label for="thumbnail"
+				>Thumbnail Materi <span class="text-xs text-gray-500">(png, jpg, jpeg)</span></Label
+			>
+			<Input
+				type="file"
+				name="thumbnail"
+				placeholder="Thumbnail Materi"
+				accept="image/*"
+			/>
+		</div>
+		<div class="mb-4">
+			<Label for="description">Deskripsi</Label>
 			<Textarea
 				name="description"
 				value={data.course?.description}
 				placeholder="Judul Materi"
-				class="w-full"
+				class="min-h-[150px] w-full"
 			></Textarea>
 		</div>
 		<div class="mb-4">
@@ -34,8 +55,12 @@
 			/>
 		</div>
 
-		<button type="submit" class="mb-4 cursor-pointer rounded bg-emerald-600 px-4 py-2 text-white"
-			>Update Materi</button
-		>
+		<button type="submit" class="mb-4 cursor-pointer rounded bg-emerald-600 px-4 py-2 text-white">
+			{#if isLoading}
+				<Spinner size="4" /> Loading...
+			{:else}
+				Update Materi
+			{/if}
+		</button>
 	</form>
 </div>

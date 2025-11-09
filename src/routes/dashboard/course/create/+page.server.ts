@@ -10,7 +10,9 @@ export const actions: Actions = {
 		const data = {
 			title: formData.get('title')?.toString() || '',
 			description: formData.get('description')?.toString() || '',
-			file: formData.get('file') as File
+			file: formData.get('file') as File,
+			type: (formData.get('type')?.toString() === 'individu' ? 'individu' : 'kelompok') as 'individu' | 'kelompok',
+			thumbnail: formData.get('thumbnail') as File
 		};
 
 		await courseService.createCourse(data);

@@ -13,7 +13,7 @@
 	const links = [
 		{ href: '/', label: 'Beranda', icon: Home },
 		{ href: '/courses', label: 'Materi', icon: Layers },
-		{ href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, adminOnly: true }
+		{ href: '/dashboard/course', label: 'Dashboard', icon: LayoutDashboard, adminOnly: true }
 	];
 </script>
 
@@ -24,13 +24,15 @@
 			<img src={asset('/img/logo-upn.png')} alt="logo" class="h-10 w-auto" />
 			<div class="flex flex-col gap-0">
 				<p class="text-lg leading-5 font-bold text-emerald-900 md:text-2xl">SISMATA</p>
-				<span class="text-xs font-semibold text-emerald-900">Sistem Informasi Studi Mata Kuliah Wajib Kurikulum</span>
+				<span class="text-xs font-semibold text-emerald-900"
+					>Sistem Informasi Studi Mata Kuliah Wajib Kurikulum</span
+				>
 			</div>
 		</a>
 
 		<!-- Desktop nav -->
 		<nav class="hidden items-center gap-1 text-sm md:flex">
-			{#each  links.filter(link => !link.adminOnly || data.user?.is_admin) as { href, label, icon: Icon }}
+			{#each links.filter((link) => !link.adminOnly || data.user?.is_admin) as { href, label, icon: Icon }}
 				<a
 					{href}
 					class="flex items-center gap-2 rounded-md px-3 py-2 transition-colors

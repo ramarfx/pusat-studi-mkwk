@@ -22,6 +22,27 @@
       "when": 1762707053434,
       "tag": "0002_romantic_hellfire_club",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1762710403615,
+      "tag": "0003_same_ser_duncan",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1762716923362,
+      "tag": "0004_good_firebird",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1762717085808,
+      "tag": "0005_empty_mantis",
+      "breakpoints": true
     }
   ]
 }

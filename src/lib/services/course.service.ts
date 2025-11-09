@@ -1,6 +1,7 @@
 import * as courseModel from '$lib/server/db/models/course.model';
-import { courseSchema } from '$lib/utils/validators/courseSchema';
+import { courseSchema, courseSchemaUpdate } from '$lib/utils/validators/courseSchema';
 import { deleteFile, uploadFile } from '$lib/utils/uploadFile';
+import type { COURSE_TYPE } from '$lib/server/db/schema';
 
 export async function getCourses() {
 	return await courseModel.getCourse();
@@ -10,7 +11,13 @@ export async function getCourseById(id: number) {
 	return await courseModel.getCourseById(id);
 }
 
-export async function createCourse(data: { title: string; description: string; file: File }) {
+export async function createCourse(data: {
+	title: string;
+	description: string;
+	file: File;
+	thumbnail: File;
+	type: COURSE_TYPE;
+}) {
 	const parsed = courseSchema.safeParse(data);
 
 	if (!parsed.success) {
@@ -18,33 +25,44 @@ export async function createCourse(data: { title: string; description: string; f
 		throw new Error(messages);
 	}
 
-	const { file } = parsed.data;
-	let uploaded = null;
+	const { file, thumbnail } = parsed.data;
 
-	if (file && file instanceof File) {
-		try {
-			uploaded = await uploadFile(file);
+	const uploadedFile = await uploadFile(file);
+	const uploadedThumbnail = await uploadFile(thumbnail);
 
-			console.log('uploaded', uploaded);
-		} catch (error) {
-			console.error(error);
-			throw error;
-		}
+	if (!uploadedThumbnail.data) {
+		throw new Error('Gagal mengupload thumbnail');
 	}
 
-	const result = courseModel.createCourse({
+	if (!uploadedFile.data) {
+		throw new Error('Gagal mengupload file utama');
+	}
+
+	console.log('uploadedFile', uploadedFile);
+
+	const result = await courseModel.createCourse({
 		title: data.title,
+		thumbnail: uploadedThumbnail.data.ufsUrl,
 		description: data.description,
-		file: uploaded.data.ufsUrl
+		type: data.type,
+		file: uploadedFile.data.ufsUrl
 	});
+
+	console.log('result', result);
+
 	return result;
 }
-
 export async function updateCourse(
 	id: number,
-	data: { title: string; description: string; file: File | null }
+	data: {
+		title: string;
+		description: string;
+		file?: File | null;
+		thumbnail?: File | null;
+		type?: COURSE_TYPE;
+	}
 ) {
-	const parsed = courseSchema.safeParse(data);
+	const parsed = courseSchemaUpdate.safeParse(data);
 
 	if (!parsed.success) {
 		const messages = parsed.error.issues.map((e) => e.message).join(', ');
@@ -53,28 +71,46 @@ export async function updateCourse(
 
 	const course = await courseModel.getCourseById(id);
 
-	if (!course) {
-		throw new Error('Course tidak ditemukan');
+	if (!course) throw new Error('Course tidak ditemukan');
+
+	const dataToUpdate = parsed.data!;
+	const title = dataToUpdate.title;
+	const description = dataToUpdate.description;
+	const file = dataToUpdate.file;
+	const thumbnail = dataToUpdate.thumbnail;
+	const type = dataToUpdate.type;
+
+	let uploadedFileUrl = course.file;
+	let uploadedThumbnailUrl = course.thumbnail ?? '';
+
+	// upload file baru jika ada
+	if (file) {
+		if (course.file) {
+			const oldFileKey = course.file.split('/f/')[1];
+			await deleteFile(oldFileKey);
+		}
+		const uploadedFile = await uploadFile(file);
+		if (!uploadedFile.data) throw new Error('Gagal mengupload file utama');
+		uploadedFileUrl = uploadedFile.data.ufsUrl;
 	}
 
-	const { file } = parsed.data;
-	let uploaded = null;
-
-	if (file && file instanceof File) {
-		// hapus file lama
-		const oldFile = course.file.split('/f/')[1];
-		await deleteFile(oldFile);
-
-		// upload file
-		uploaded = await uploadFile(file);
-
-		console.log('uploaded', uploaded);
+	// upload thumbnail baru jika ada
+	if (thumbnail) {
+		if (course.thumbnail) {
+			const oldThumbnailKey = course.thumbnail.split('/f/')[1];
+			await deleteFile(oldThumbnailKey);
+		}
+		const uploadedThumbnail = await uploadFile(thumbnail);
+		if (!uploadedThumbnail.data) throw new Error('Gagal mengupload thumbnail');
+		uploadedThumbnailUrl = uploadedThumbnail.data.ufsUrl;
 	}
 
 	return await courseModel.updateCourse(id, {
-		title: data.title,
-		description: data.description,
-		file: uploaded?.data?.ufsUrl || course.file
+		title,
+		description,
+		file: uploadedFileUrl,
+		thumbnail: uploadedThumbnailUrl,
+		type: type ?? course.type // jika tidak diubah, tetap pakai yang lama
 	});
 }
 

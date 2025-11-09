@@ -1,7 +1,11 @@
 <script lang="ts">
+	import type { COURSE_TYPE } from "$lib/server/db/schema";
+
 	export let title: string;
 	export let description: string;
 	export let href: string = '#';
+	export let thumbnail: string;
+	export let type: COURSE_TYPE
 </script>
 
 <a
@@ -12,7 +16,7 @@
 		<!-- Gambar -->
 		<div class="h-20 overflow-hidden rounded-xl md:h-[150px]">
 			<img
-				src={'/img/upn-front.jpg'}
+				src={thumbnail ?? '/img/upn-front.png'}
 				alt={title}
 				class="h-full w-full object-cover transition duration-300 group-hover:scale-105"
 			/>
@@ -24,7 +28,7 @@
 		</h3>
 
 		<!-- Deskripsi -->
-		<p class="mt-1 text-xs text-emerald-800/80">
+		<p class="mt-1 text-xs text-emerald-800/80 truncate">
 			{description}
 		</p>
 

@@ -1,23 +1,33 @@
 import { relations } from 'drizzle-orm';
-import { boolean, pgTable, serial, varchar, timestamp, integer, pgEnum } from 'drizzle-orm/pg-core';
+import {
+	boolean,
+	pgTable,
+	serial,
+	varchar,
+	timestamp,
+	integer,
+	pgEnum,
+	text
+} from 'drizzle-orm/pg-core';
 
 export const user = pgTable('users', {
 	id: serial('id').primaryKey(),
-	username: varchar('username', { length: 50 }).unique().notNull(),
+	username: varchar('username', { length: 100 }).unique().notNull(),
 	password: varchar('password', { length: 200 }).notNull(),
 	is_admin: boolean('is_admin').notNull().default(false),
 	created_at: timestamp('created_at').notNull().defaultNow()
 });
 
-export const COURSE_TYPE = pgEnum("type", ["individu", "kelompok"]);
+export const courseTypeEnum = pgEnum('type', ['individu', 'kelompok']);
+export type COURSE_TYPE = (typeof courseTypeEnum.enumValues)[number];
 
 export const course = pgTable('courses', {
 	id: serial('id').primaryKey(),
-	title: varchar('title', { length: 50 }).notNull(),
-	description: varchar('description', { length: 200 }).notNull(),
+	title: varchar('title', { length: 200 }).notNull(),
+	description: text('description').notNull(),
 	file: varchar('file', { length: 200 }).notNull(),
 	thumbnail: varchar('thumbnail', { length: 200 }),
-	type: COURSE_TYPE("type").notNull().default("individu"),
+	type: courseTypeEnum('type').notNull().default('individu'),
 	created_at: timestamp('created_at').notNull().defaultNow()
 });
 
@@ -25,10 +35,10 @@ export const submission = pgTable('submissions', {
 	id: serial('id').primaryKey(),
 	user_id: integer('user_id')
 		.notNull()
-		.references(() => user.id),
+		.references(() => user.id, { onDelete: 'cascade' }),
 	course_id: integer('course_id')
 		.notNull()
-		.references(() => course.id),
+		.references(() => course.id, { onDelete: 'cascade' }),
 	file_url: varchar('file_url', { length: 200 }),
 	grade: integer('grade').default(0),
 	created_at: timestamp('created_at').notNull().defaultNow(),

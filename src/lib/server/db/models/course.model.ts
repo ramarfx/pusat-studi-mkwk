@@ -1,6 +1,7 @@
 import { eq } from 'drizzle-orm';
 import { db } from '..';
 import { course } from '../schema';
+import type { Course, CourseRequest } from '$lib/types/course';
 
 export async function getCourse(): Promise<Course[]> {
 	return await db.query.course.findMany();
