@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Actions } from '@sveltejs/kit';
-import { fail, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import * as courseService from '$lib/services/course.service';
 
 export const actions: Actions = {

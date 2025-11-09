@@ -25,7 +25,7 @@ export async function createCourse(data: { title: string; description: string; f
 
 	if (file && file instanceof File) {
 		// Pastikan direktori upload tersedia
-		const uploadDir = path.join('static', 'courses');
+		const uploadDir = path.join(process.cwd(), 'uploads', 'courses');
 		await fs.mkdir(uploadDir, { recursive: true });
 
 		// Konversi file ke buffer
@@ -68,7 +68,7 @@ export async function updateCourse(
 		const messages = parsed.error.issues.map((e) => e.message).join(', ');
 		throw new Error(messages);
 	}
-	
+
 	const course = await courseModel.getCourseById(id);
 
 	if (!course) {
@@ -80,7 +80,7 @@ export async function updateCourse(
 
 	if (file && file instanceof File) {
 		// Pastikan direktori upload tersedia
-		const uploadDir = path.join('static', 'courses');
+		const uploadDir = path.join(process.cwd(), 'uploads', 'courses');
 		await fs.mkdir(uploadDir, { recursive: true });
 
 		// Konversi file ke buffer
@@ -119,7 +119,9 @@ export async function deleteCourse(id: number) {
 	}
 
 	if (course.file) {
-		const filePath = path.join('static', course.file.replace(/^\//, '')); // buang leading slash
+		const uploadDir = path.join(process.cwd(), 'uploads');
+		const filePath = path.join(uploadDir, course.file.replace(/^\/courses\//, 'courses/'));
+		// buang leading slash
 
 		try {
 			await fs.unlink(filePath);

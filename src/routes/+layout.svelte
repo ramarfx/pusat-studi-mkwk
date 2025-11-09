@@ -2,6 +2,7 @@
 	import '../app.css';
 	import favicon from '$lib/assets/icon.png';
 	import Navbar from '$lib/components/layout/Navbar.svelte';
+	import { fade } from 'svelte/transition';
 	
 	
 	let { children, data } = $props();
@@ -14,7 +15,7 @@
 
 <Navbar {data} />
 
-<main class="min-h-[calc(100vh-100px)]">
+<main class="min-h-[calc(100vh-100px)]" in:fade={{ duration: 150 }} out:fade={{ duration: 150 }}>
 	{@render children()}
 </main>
 
