@@ -8,6 +8,7 @@
 	import { navigating } from '$app/stores';
 	import { Tween } from 'svelte/motion';
 	import { cubicOut } from 'svelte/easing';
+	import Loader from '$lib/components/Loader.svelte';
 
 	let { children, data } = $props();
 
@@ -38,8 +39,9 @@
 </svelte:head>
 
 {#if showLoader}
-	<div class="fixed z-9999 flex h-screen w-screen items-center justify-center bg-red-500">
-		<p>Loading...</p>
+	<div class="fixed z-9999 flex h-screen w-screen items-center justify-center flex-col bg-linear-to-tr from-emerald-500/20 to-white/50 backdrop-blur-2xl">
+		<Loader />
+		<p class="mt-2 text-base font-medium text-emerald-950">Loading...</p>
 	</div>
 {/if}
 

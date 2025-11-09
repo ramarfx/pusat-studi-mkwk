@@ -9,10 +9,9 @@
 
 	// Data dummy untuk navigasi sidebar
 	const navItems = [
-		{ name: 'Beranda', href: '/dashboard' },
 		{ name: 'Materi', href: '/dashboard/course' },
-		{ name: 'Pengguna', href: '/dashboard/users' },
-		{ name: 'Keluar', href: '/logout' }
+		// { name: 'Pengguna', href: '/dashboard/users' },
+		// { name: 'Keluar', href: '/logout' }
 	];
 </script>
 
