@@ -57,9 +57,9 @@ export async function updateCourse(
 	data: {
 		title: string;
 		description: string;
-		file?: File | null;
-		thumbnail?: File | null;
-		type?: COURSE_TYPE;
+		file: File | null;
+		thumbnail: File | null;
+		type: COURSE_TYPE;
 	}
 ) {
 	const parsed = courseSchemaUpdate.safeParse(data);
@@ -109,7 +109,7 @@ export async function updateCourse(
 		title,
 		description,
 		file: uploadedFileUrl,
-		thumbnail: uploadedThumbnailUrl,
+		thumbnail: uploadedThumbnailUrl ?? course.thumbnail,
 		type: type ?? course.type // jika tidak diubah, tetap pakai yang lama
 	});
 }

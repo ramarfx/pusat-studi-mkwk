@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Input, Label, Spinner, Textarea } from 'flowbite-svelte';
+	import { Input, Label, Select, Spinner, Textarea } from 'flowbite-svelte';
 	import type { PageProps } from './$types';
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
@@ -24,6 +24,13 @@
 		<div class="mb-4">
 			<Label for="title">Judul Materi</Label>
 			<Input type="text" name="title" value={data.course?.title} placeholder="Judul Materi" />
+		</div>
+		<div class="mb-4">
+			<Label for="type">Jenis Tugas</Label>
+			<Select name="type" placeholder="Pilih Jenis Tugas" value={data.course?.type} required>
+				<option value="individu">Individu</option>
+				<option value="kelompok">Kelompok</option>
+			</Select>
 		</div>
 		<div class="mb-4">
 			<Label for="thumbnail"

@@ -32,7 +32,7 @@ export const actions: Actions = {
 			id: Number(formData.get('id')),
 			title: formData.get('title')?.toString() || '',
 			thumbnail: formData.get('thumbnail') as File,
-			type: formData.get('type')?.toString() || 'individu',
+			type: (formData.get('type')?.toString() === 'individu' ? 'individu' : 'kelompok') as 'individu' | 'kelompok',
 			description: formData.get('description')?.toString() || '',
 			file: formData.get('file') as File
 		};
