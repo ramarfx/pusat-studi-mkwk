@@ -38,7 +38,7 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-{#if !showLoader}
+{#if showLoader}
 	<div class="fixed z-9999 flex h-screen w-screen items-center justify-center flex-col bg-linear-to-br from-emerald-500 to-yellow-200">
 		<Loader />
 		<p class="mt-2 text-xl font-bold text-emerald-900">Loading...</p>
