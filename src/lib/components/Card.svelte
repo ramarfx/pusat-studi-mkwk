@@ -5,7 +5,6 @@
 	export let description: string;
 	export let href: string = '#';
 	export let thumbnail: string;
-	export let type: COURSE_TYPE
 </script>
 
 <a
@@ -32,10 +31,6 @@
 		<p class="mt-1 text-xs text-emerald-800/80 truncate">
 			{description}
 		</p>
-
-		<h3 class="mt-3 text-xs text-white bg-emerald-500 inline-block w-fit px-2 py-0.5">
-			{type}
-		</h3>
 
 		<!-- Garis bawah -->
 		<div class={`mt-2 h-1 bg-linear-to-r from-emerald-300 via-yellow-300 to-emerald-300`}></div>
