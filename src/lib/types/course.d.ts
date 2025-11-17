@@ -7,6 +7,8 @@ interface Course {
     title: string;
     description: string;
     file: string;
+    deadline: Date;
+    video?: string | null;
 }
 
 interface CourseRequest {
@@ -15,4 +17,6 @@ interface CourseRequest {
     description: string;
     file: string;
     type: COURSE_TYPE;
+    deadline: Date;
+    video?: string | null;
 }

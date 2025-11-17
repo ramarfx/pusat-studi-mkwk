@@ -1,8 +1,10 @@
 <script lang="ts">
-	import { Input, Label, Select, Spinner, Textarea } from 'flowbite-svelte';
+	import { Datepicker, Input, Label, Select, Spinner, Textarea } from 'flowbite-svelte';
 	import type { PageProps } from './$types';
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
+
+	let selectedDate = $state<Date | undefined>(undefined);
 
 	let isLoading = $state(false);
 
@@ -19,6 +21,7 @@
 	<h1 class="mb-4 text-2xl font-bold">Tambah Materi MKWK</h1>
 
 	<form method="post" use:enhance={onsubmit} enctype="multipart/form-data">
+		<input type="hidden" name="deadline" value={selectedDate} />
 		<div class="mb-4">
 			<Label for="title">Judul Materi</Label>
 			<Input type="text" name="title" placeholder="Judul Materi" required />
@@ -58,6 +61,14 @@
 				accept=".pdf,.doc,.docx,.ppt,.pptx"
 				required
 			/>
+		</div>
+		<div class="mb-4">
+			<Label for="video">Video Materi <span class="text-xs text-gray-500">(Opsional)</span></Label>
+			<Input type="url" name="video" placeholder="Link video materi" />
+		</div>
+		<div class="mb-4 w-full md:w-1/2">
+			<Label for="deadline">Deadline</Label>
+			<Datepicker bind:value={selectedDate} availableFrom={new Date()} required />
 		</div>
 
 		<button type="submit" class="mb-4 cursor-pointer rounded bg-emerald-600 px-4 py-2 text-white">

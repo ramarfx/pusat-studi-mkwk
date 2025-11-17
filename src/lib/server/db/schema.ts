@@ -1,4 +1,4 @@
-import { relations } from 'drizzle-orm';
+import { relations, sql } from 'drizzle-orm';
 import {
 	boolean,
 	pgTable,
@@ -26,8 +26,10 @@ export const course = pgTable('courses', {
 	title: varchar('title', { length: 200 }).notNull(),
 	description: text('description').notNull(),
 	file: varchar('file', { length: 200 }).notNull(),
+	video: varchar('video', { length: 200 }),
 	thumbnail: varchar('thumbnail', { length: 200 }),
 	type: courseTypeEnum('type').notNull().default('individu'),
+	deadline: timestamp('deadline').notNull().default(sql`(date_trunc('day', now() + interval '7 days'))`),
 	created_at: timestamp('created_at').notNull().defaultNow()
 });
 

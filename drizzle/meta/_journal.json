@@ -43,6 +43,13 @@
       "when": 1762717085808,
       "tag": "0005_empty_mantis",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1763392107889,
+      "tag": "0008_chief_madelyne_pryor",
+      "breakpoints": true
     }
   ]
 }

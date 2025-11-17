@@ -5,7 +5,9 @@ export const courseSchema = z.object({
 	description: z.string(),
 	file: z.file(),
 	thumbnail: z.file(),
-	type: z.enum(['individu', 'kelompok'])
+	type: z.enum(['individu', 'kelompok']),
+	deadline: z.date().optional(),
+	video: z.string().optional()
 });
 
 export const courseSchemaUpdate = z.object({
@@ -13,7 +15,9 @@ export const courseSchemaUpdate = z.object({
 	description: z.string().optional(),
 	file: z.instanceof(File).optional().nullable(),
 	thumbnail: z.instanceof(File).optional().nullable(),
-	type: z.enum(['individu', 'kelompok']).optional()
+	type: z.enum(['individu', 'kelompok']).optional(),
+	deadline: z.date().optional(),
+	video: z.string().optional()
 });
 
 export type CourseInput = z.infer<typeof courseSchema>;

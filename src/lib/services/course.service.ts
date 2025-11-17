@@ -17,6 +17,8 @@ export async function createCourse(data: {
 	file: File;
 	thumbnail: File;
 	type: COURSE_TYPE;
+	deadline: Date;
+	video?: string | null;
 }) {
 	const parsed = courseSchema.safeParse(data);
 
@@ -45,7 +47,9 @@ export async function createCourse(data: {
 		thumbnail: uploadedThumbnail.data.ufsUrl,
 		description: data.description,
 		type: data.type,
-		file: uploadedFile.data.ufsUrl
+		file: uploadedFile.data.ufsUrl,
+		deadline: data.deadline as Date,
+		video: data.video ?? null
 	});
 
 	console.log('result', result);
@@ -60,6 +64,8 @@ export async function updateCourse(
 		file?: File | null;
 		thumbnail?: File | null;
 		type?: COURSE_TYPE;
+		deadline?: Date;
+		video?: string | null;
 	}
 ) {
 	// Validasi
@@ -109,7 +115,9 @@ export async function updateCourse(
 		description: description ?? course.description,
 		file: fileUrl,
 		thumbnail: thumbnailUrl,
-		type: type ?? course.type
+		type: type ?? course.type,
+		deadline: data.deadline ?? course.deadline,
+		video: data.video ?? course.video
 	});
 }
 

@@ -1,10 +1,15 @@
 <script lang="ts">
-	import { Input, Label, Select, Spinner, Textarea } from 'flowbite-svelte';
+	import { Datepicker, Input, Label, Select, Spinner, Textarea } from 'flowbite-svelte';
 	import type { PageProps } from './$types';
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
 	let { data }: PageProps = $props();
+	let selectedDate = $state<Date | undefined>(undefined);
+
+	if (data.course?.deadline) {
+		selectedDate = new Date(data.course.deadline);
+	}
 
 	let isLoading = $state(false);
 	const onsubmit: SubmitFunction = () => {
@@ -21,6 +26,7 @@
 
 	<form method="post" use:enhance={onsubmit} enctype="multipart/form-data">
 		<input type="hidden" name="id" value={data.course?.id} />
+		<input type="hidden" name="deadline" value={selectedDate} />
 		<div class="mb-4">
 			<Label for="title">Judul Materi</Label>
 			<Input type="text" name="title" value={data.course?.title} placeholder="Judul Materi" />
@@ -36,12 +42,7 @@
 			<Label for="thumbnail"
 				>Thumbnail Materi <span class="text-xs text-gray-500">(png, jpg, jpeg)</span></Label
 			>
-			<Input
-				type="file"
-				name="thumbnail"
-				placeholder="Thumbnail Materi"
-				accept="image/*"
-			/>
+			<Input type="file" name="thumbnail" placeholder="Thumbnail Materi" accept="image/*" />
 		</div>
 		<div class="mb-4">
 			<Label for="description">Deskripsi</Label>
@@ -60,6 +61,19 @@
 				placeholder="Judul Materi"
 				accept=".pdf,.doc,.docx,.ppt,.pptx"
 			/>
+		</div>
+		<div class="mb-4">
+			<Label for="video">Video Materi <span class="text-xs text-gray-500">(Opsional)</span></Label>
+			<Input
+				type="url"
+				name="video"
+				placeholder="Link video materi"
+				value={data.course?.video || ''}
+			/>
+		</div>
+		<div class="mb-4 w-full md:w-1/2">
+			<Label for="deadline">Deadline</Label>
+			<Datepicker bind:value={selectedDate} availableFrom={new Date()} required />
 		</div>
 
 		<button type="submit" class="mb-4 cursor-pointer rounded bg-emerald-600 px-4 py-2 text-white">
