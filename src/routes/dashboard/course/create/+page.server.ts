@@ -2,7 +2,6 @@
 import type { Actions } from '@sveltejs/kit';
 import { redirect } from '@sveltejs/kit';
 import * as courseService from '$lib/services/course.service';
-import { deadlineFormat } from '$lib/utils/deadlineFormat';
 
 export const actions: Actions = {
 	default: async ({ request }) => {
@@ -15,7 +14,7 @@ export const actions: Actions = {
 			type: (formData.get('type')?.toString() === 'individu' ? 'individu' : 'kelompok') as 'individu' | 'kelompok',
 			thumbnail: formData.get('thumbnail') as File,
 			video: formData.get('video') ?? '',
-			deadline: deadlineFormat(formData.get('deadline') as string)
+			deadline: formData.get('deadline') ? new Date(formData.get('deadline') as string) : null
 		};
 
 		await courseService.createCourse(data);
