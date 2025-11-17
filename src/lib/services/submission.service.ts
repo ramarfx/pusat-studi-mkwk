@@ -62,7 +62,7 @@ export async function updateSubmission(id: number, data: SubmissionRequest) {
 
 	let uploaded = null;
 
-	if (file_url && file_url instanceof File) {
+	if (file_url && submission.file_url && file_url instanceof File && file_url.size > 0) {
 		try {
 			// delete file lama
 			const oldFile = submission.file_url.split('/f/')[1];
@@ -76,13 +76,15 @@ export async function updateSubmission(id: number, data: SubmissionRequest) {
 			console.error(error);
 			throw error;
 		}
+
+		return await submissionModel.updateSubmission(id, {
+			course_id: data.course_id,
+			user_id: data.user_id,
+			file_url: uploaded?.data?.ufsUrl || submission.file_url
+		});
 	}
 
-	return await submissionModel.updateSubmission(id, {
-		course_id: data.course_id,
-		user_id: data.user_id,
-		file_url: uploaded?.data?.ufsUrl || submission.file_url,
-	});
+	throw new Error('Tidak ada file yang diupload');
 }
 
 export async function deleteSubmission(id: number) {

@@ -55,62 +55,61 @@ export async function createCourse(data: {
 export async function updateCourse(
 	id: number,
 	data: {
-		title: string;
-		description: string;
-		file: File | null;
-		thumbnail: File | null;
-		type: COURSE_TYPE;
+		title?: string;
+		description?: string;
+		file?: File | null;
+		thumbnail?: File | null;
+		type?: COURSE_TYPE;
 	}
 ) {
+	// Validasi
 	const parsed = courseSchemaUpdate.safeParse(data);
-
 	if (!parsed.success) {
 		const messages = parsed.error.issues.map((e) => e.message).join(', ');
 		throw new Error(messages);
 	}
 
 	const course = await courseModel.getCourseById(id);
-
 	if (!course) throw new Error('Course tidak ditemukan');
 
-	const dataToUpdate = parsed.data!;
-	const title = dataToUpdate.title;
-	const description = dataToUpdate.description;
-	const file = dataToUpdate.file;
-	const thumbnail = dataToUpdate.thumbnail;
-	const type = dataToUpdate.type;
+	const { title, description, file, thumbnail, type } = parsed.data;
 
-	let uploadedFileUrl = course.file;
-	let uploadedThumbnailUrl = course.thumbnail ?? '';
+	console.log('parsed.data', parsed.data);
 
-	// upload file baru jika ada
-	if (file) {
+	let fileUrl = course.file;
+	let thumbnailUrl = course.thumbnail as string;
+
+	// === Handle upload file utama ===
+	if (file instanceof File && file.size > 0) {
 		if (course.file) {
-			const oldFileKey = course.file.split('/f/')[1];
-			await deleteFile(oldFileKey);
+			const oldKey = course.file.split('/f/')[1];
+			if (oldKey) await deleteFile(oldKey);
 		}
-		const uploadedFile = await uploadFile(file);
-		if (!uploadedFile.data) throw new Error('Gagal mengupload file utama');
-		uploadedFileUrl = uploadedFile.data.ufsUrl;
+
+		const result = await uploadFile(file);
+		if (!result.data) throw new Error('Gagal mengupload file utama');
+		fileUrl = result.data.ufsUrl;
 	}
 
-	// upload thumbnail baru jika ada
-	if (thumbnail) {
+	// === Handle upload thumbnail ===
+	if (thumbnail instanceof File && thumbnail.size > 0) {
 		if (course.thumbnail) {
-			const oldThumbnailKey = course.thumbnail.split('/f/')[1];
-			await deleteFile(oldThumbnailKey);
+			const oldKey = course.thumbnail.split('/f/')[1];
+			if (oldKey) await deleteFile(oldKey);
 		}
-		const uploadedThumbnail = await uploadFile(thumbnail);
-		if (!uploadedThumbnail.data) throw new Error('Gagal mengupload thumbnail');
-		uploadedThumbnailUrl = uploadedThumbnail.data.ufsUrl;
+
+		const result = await uploadFile(thumbnail);
+		if (!result.data) throw new Error('Gagal mengupload thumbnail');
+		thumbnailUrl = result.data.ufsUrl;
 	}
 
+	// Update final
 	return await courseModel.updateCourse(id, {
-		title,
-		description,
-		file: uploadedFileUrl,
-		thumbnail: uploadedThumbnailUrl ?? course.thumbnail,
-		type: type ?? course.type // jika tidak diubah, tetap pakai yang lama
+		title: title ?? course.title,
+		description: description ?? course.description,
+		file: fileUrl,
+		thumbnail: thumbnailUrl,
+		type: type ?? course.type
 	});
 }
 

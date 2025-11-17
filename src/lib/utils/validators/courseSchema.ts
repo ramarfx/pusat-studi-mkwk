@@ -1,13 +1,19 @@
-import z from "zod";
+import z from 'zod';
 
 export const courseSchema = z.object({
-    title: z.string().min(3),
-    description: z.string(),
-    file: z.file(),
-    thumbnail: z.file(),
-    type: z.enum(['individu', 'kelompok'])
-})
+	title: z.string().min(3),
+	description: z.string(),
+	file: z.file(),
+	thumbnail: z.file(),
+	type: z.enum(['individu', 'kelompok'])
+});
 
-export const courseSchemaUpdate = courseSchema.nullable();
+export const courseSchemaUpdate = z.object({
+	title: z.string().min(3).optional(),
+	description: z.string().optional(),
+	file: z.instanceof(File).optional().nullable(),
+	thumbnail: z.instanceof(File).optional().nullable(),
+	type: z.enum(['individu', 'kelompok']).optional()
+});
 
 export type CourseInput = z.infer<typeof courseSchema>;
