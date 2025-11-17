@@ -31,6 +31,16 @@
 			highlight: false
 		},
 		{
+			header: 'Batas pengumpulan',
+			value: data.course.deadline
+				? data.course.deadline.toLocaleString('id-ID', {
+						dateStyle: 'medium',
+						timeStyle: 'short'
+					})
+				: '-',
+			highlight: false
+		},
+		{
 			header: 'Tanggal pengumpulan',
 			value: data.isSubmitted
 				? data.userSubmission?.created_at?.toLocaleString('id-ID', {
