@@ -13,7 +13,7 @@
 	let { data }: PageProps = $props();
 </script>
 
-<div class="w-full">
+<div class="w-full ">
 	<h1 class="mb-4 text-2xl font-bold">Materi MKWK</h1>
 
 	<div class="flex justify-end">
@@ -30,9 +30,9 @@
 		</TableHead>
 		<TableBody>
 			{#each data.courses as course, i}
-				<TableBodyRow>
+				<TableBodyRow class="bg-white border-0 group">
 					<TableBodyCell>{i + 1}</TableBodyCell>
-					<TableBodyCell>{course.title}</TableBodyCell>
+					<TableBodyCell><a href={`/dashboard/course/${course.id}`} class="group-hover:underline">{course.title}</a></TableBodyCell>
 					<TableBodyCell>
 						<a href={course.file} target="_blank" class="text-blue-500">Lihat file</a>
 					</TableBodyCell>

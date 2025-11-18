@@ -18,15 +18,27 @@ export async function getSubmissionById(id: number): Promise<Submission | null> 
 	return result;
 }
 
+export async function getSubmissionByCourseId(id: number): Promise<Submission[]> {
+	return await db.query.submission.findMany({
+		where: (c, { eq }) => eq(c.course_id, id),
+		with: {
+			user: true,
+			course: true
+		}
+	});
+}
+
 export async function createSubmission(data: SubmissionRequest) {
 	return await db.insert(submission).values(data);
 }
 
-
 export async function updateSubmission(id: number, data: SubmissionRequest) {
-    return await db.update(submission).set({...data, created_at: new Date()}).where(eq(submission.id, id));
+	return await db
+		.update(submission)
+		.set({ ...data, created_at: new Date() })
+		.where(eq(submission.id, id));
 }
 
 export async function deleteSubmission(id: number) {
-    return await db.delete(submission).where(eq(submission.id, id));
+	return await db.delete(submission).where(eq(submission.id, id));
 }

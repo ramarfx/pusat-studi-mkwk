@@ -2,7 +2,6 @@ import * as submissionModel from '$lib/server/db/models/submission.model';
 import { submissionSchema } from '$lib/utils/validators/submissionSchema';
 import path from 'path';
 import { promises as fs } from 'fs';
-import crypto from 'crypto';
 import { deleteFile, uploadFile } from '$lib/utils/uploadFile';
 import type { SubmissionRequest } from '$lib/types/submission';
 
@@ -12,6 +11,10 @@ export async function getSubmission() {
 
 export async function getSubmissionById(id: number) {
 	return await submissionModel.getSubmissionById(id);
+}
+
+export async function getSubmissionByCourseId(id: number) {
+	return await submissionModel.getSubmissionByCourseId(id);
 }
 
 export async function createSubmission(data: SubmissionRequest) {
