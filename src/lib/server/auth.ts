@@ -3,18 +3,18 @@ import { db } from './db';
 import { user } from '../server/db/schema';
 import { redirect, type Cookies } from '@sveltejs/kit';
 
-export async function register(username: string, password: string) {
+export async function register(nip: string, password: string) {
 	const hashedPassoword = await bcrypt.hash(password, 10);
 
 	await db.insert(user).values({
-		username: username,
+		nip: nip,
 		password: hashedPassoword
 	});
 }
 
-export async function login(username: string, password: string) {
+export async function login(nip: string, password: string) {
 	const existingUser = await db.query.user.findFirst({
-		where: (user, { eq }) => eq(user.username, username)
+		where: (user, { eq }) => eq(user.nip, nip)
 	});
 
 	if (!existingUser) {

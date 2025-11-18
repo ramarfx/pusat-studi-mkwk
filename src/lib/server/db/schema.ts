@@ -12,7 +12,8 @@ import {
 
 export const user = pgTable('users', {
 	id: serial('id').primaryKey(),
-	username: varchar('username', { length: 100 }).unique().notNull(),
+	nip: varchar('nip', { length: 100 }).unique().notNull(),
+	name: varchar('name', {length: 200}).default('user'),
 	password: varchar('password', { length: 200 }).notNull(),
 	is_admin: boolean('is_admin').notNull().default(false),
 	created_at: timestamp('created_at').notNull().defaultNow()

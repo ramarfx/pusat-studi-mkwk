@@ -11,19 +11,19 @@ export const POST: RequestHandler = async ({ request }) => {
 	const data = await request.json();
 
     const body: UserRequest = {
-        username: data.username,
+        nip: data.nip,
         password: await bcrypt.hash(data.password, 10),
     }
 
 	try {
 		const [createUser] = await db.insert(user).values(body).returning({
             id: user.id,
-            username: user.username
+            nip: user.nip
         });
 
 		return Response.json({
             id: createUser.id,
-            username: createUser.username,
+            nip: createUser.nip,
         });
 	} catch (error) {
 		throw Response.json(error);

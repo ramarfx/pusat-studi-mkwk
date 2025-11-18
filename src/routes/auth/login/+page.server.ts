@@ -4,16 +4,16 @@ import { fail, redirect } from '@sveltejs/kit';
 export const actions = {
 	default: async ({ request, cookies }) => {
 		const form: FormData = await request.formData();
-		const username = form.get('username')?.toString().trim();
+		const nip = form.get('nip')?.toString().trim();
 		const password = form.get('password')?.toString().trim();
 
-		if (!username || !password || typeof username !== 'string' || typeof password !== 'string') {
-			return fail(401, { error: 'Username dan password wajib diisi' });
+		if (!nip || !password || typeof nip !== 'string' || typeof password !== 'string') {
+			return fail(401, { error: 'Nip dan password wajib diisi' });
 		}
 
-		const user = await login(username, password);
+		const user = await login(nip, password);
 		if (!user) {
-			return fail(401, { error: 'Username atau password salah' });
+			return fail(401, { error: 'NIP atau password salah' });
 		}
 
 		cookies.set('session_user', user.id.toString(), {

@@ -8,7 +8,8 @@ declare global {
 		interface Locals {
 			user: {
 				id: number;
-				username: string;
+				nip: string;
+				name: string;
 				is_admin: boolean;
 				submissions: Submission[];
 			};

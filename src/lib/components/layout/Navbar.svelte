@@ -46,7 +46,7 @@
 			{/each}
 
 			{#if data.user}
-				<p class="ml-4 text-emerald-800">Halo, {data.user?.username}</p>
+				<p class="ml-4 text-emerald-800">Halo, {data.user?.name}</p>
 
 				<!-- svelte-ignore a11y_consider_explicit_label -->
 				<form action="/auth/logout" method="post">

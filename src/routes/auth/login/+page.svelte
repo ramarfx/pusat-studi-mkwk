@@ -31,11 +31,11 @@
 					{/if}
 
 					<div class="mb-6">
-						<Label for="username">Username</Label>
-						<Input name="username" placeholder="Username" />
+						<Label for="nip">NIP</Label>
+						<Input name="nip" placeholder="NIP" />
 					</div>
 					<div class="mb-6">
-						<Label for="username">Password</Label>
+						<Label for="password">Password</Label>
 						<Input type="password" name="password" placeholder="Password" />
 					</div>
 

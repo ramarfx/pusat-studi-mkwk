@@ -50,6 +50,13 @@
       "when": 1763392107889,
       "tag": "0008_chief_madelyne_pryor",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1763454117893,
+      "tag": "0009_blue_mercury",
+      "breakpoints": true
     }
   ]
 }

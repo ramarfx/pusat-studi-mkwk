@@ -1,11 +1,12 @@
 interface User {
     id: number;
-    username: string;
+    nip: string;
+    name: string;
     password: string;
     is_admin: boolean;
 }
 
 interface UserRequest {
-    username: string;
+    nip: string;
     password: string;
 }
