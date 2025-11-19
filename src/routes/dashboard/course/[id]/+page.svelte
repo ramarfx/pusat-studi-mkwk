@@ -49,6 +49,7 @@
 			<TableHead>
 				<TableHeadCell>No.</TableHeadCell>
 				<TableHeadCell>Nama</TableHeadCell>
+				<TableHeadCell>Waktu pengumpulan</TableHeadCell>
 				<TableHeadCell>File tugas</TableHeadCell>
 			</TableHead>
 			<TableBody>
@@ -57,6 +58,15 @@
 						<TableBodyRow class="group border-0 bg-white">
 							<TableBodyCell>{i + 1}</TableBodyCell>
 							<TableBodyCell>{submission.user?.name}</TableBodyCell>
+							
+							<TableBodyCell
+								>{new Date(submission.created_at).toLocaleString('id', {
+									dateStyle: 'medium',
+									timeStyle: 'short',
+									timeZone: 'Asia/Jakarta',
+									hour12: true
+								})}</TableBodyCell
+							>
 							<TableBodyCell>
 								<a href={submission.file_url} target="_blank" class="text-blue-500">Lihat file</a>
 							</TableBodyCell>
