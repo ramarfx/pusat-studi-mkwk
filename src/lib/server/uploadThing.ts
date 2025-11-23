@@ -10,20 +10,20 @@ export const ourFileRouter = {
 	// Define as many FileRoutes as you like, each with a unique routeSlug
 	fileUpload: f({
 		image: {
-			maxFileSize: '4MB',
-			maxFileCount: 1
+			maxFileSize: '32MB',
+			maxFileCount: 5
 		},
 		pdf: {
-			maxFileSize: '4MB',
-			maxFileCount: 1
+			maxFileSize: '32MB',
+			maxFileCount: 5
 		},
 		'application/msword': { maxFileSize: '8MB' }, // .doc
 		'application/vnd.openxmlformats-officedocument.wordprocessingml.document': {
-			maxFileSize: '16MB'
+			maxFileSize: '32MB'
 		},
 		'application/vnd.ms-powerpoint': { maxFileSize: '16MB' }, // .ppt
 		'application/vnd.openxmlformats-officedocument.presentationml.presentation': {
-			maxFileSize: '16MB'
+			maxFileSize: '32MB'
 		}
 	})
 		// Set permissions and file types for this FileRoute
